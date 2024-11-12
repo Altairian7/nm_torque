@@ -29,7 +29,7 @@ const scene = new THREE.Scene();    //scene
 
 const geo = new THREE.IcosahedronGeometry(1,3);
 const mat = new THREE.MeshStandardMaterial({
-    color: "darkblue",
+    color: "white",
     flatShading: true,
     
 });
@@ -39,13 +39,14 @@ scene.add(mesh);
 
 
 
-const wiregeo = new THREE.IcosahedronGeometry(1.1,3);
+const wiregeo = new THREE.IcosahedronGeometry(1,3);
 const wireMat = new THREE.MeshBasicMaterial({
-    color: 'yellow',
+    color: 'black',
     wireframe: true
 });
 const wireMesh = new THREE.Mesh(wiregeo, wireMat);
-scene.add(wireMesh)
+wireMesh.scale.setScalar(1.001);
+mesh.add(wireMesh)
 
 
 
@@ -53,7 +54,7 @@ scene.add(wireMesh)
 
 //*-----------Created Light
 
-const hemiLight = new THREE.HemisphereLight('white', 'black')
+const hemiLight = new THREE.HemisphereLight('yellow', 'red')
 scene.add(hemiLight);
 
 
@@ -63,8 +64,8 @@ scene.add(hemiLight);
 
 function animate(t = 0) {
     requestAnimationFrame(animate);
-    mesh.rotation.y = t / 2000;
-    wireMesh.rotation.y = -t / 2000;
+    mesh.rotation.y = t / 3000;
+    // wireMesh.rotation.y = -t / 2000;
 
     renderer.render( scene, camera );
 }
