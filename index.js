@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from "jsm/controls/OrbitControls.js"
 const width = window.innerWidth, height = window.innerHeight;
 
 // init
@@ -22,6 +23,12 @@ camera.position.z = 2;
 
 const scene = new THREE.Scene();    //scene
 
+
+//*--------Added Orbit controls
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.damingFactor = 0.03;
 
 
 
@@ -64,10 +71,11 @@ scene.add(hemiLight);
 
 function animate(t = 0) {
     requestAnimationFrame(animate);
-    mesh.rotation.y = t / 3000;
+    mesh.rotation.y = t / 4000;
     // wireMesh.rotation.y = -t / 2000;
 
     renderer.render( scene, camera );
+    controls.update();
 }
 
 animate();
