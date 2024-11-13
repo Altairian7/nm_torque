@@ -14,12 +14,12 @@ const width = window.innerWidth, height = window.innerHeight;
 
 //*------Created a Scene
 
-const renderer = new THREE.WebGLRenderer( { antialias: true } );    //renderer
+const renderer = new THREE.WebGLRenderer( { antialias: true} );    //renderer
 renderer.setSize( width, height );
 document.body.appendChild( renderer.domElement );
 
 const camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 10 );  //camera
-camera.position.z = 2;
+camera.position.z = 3;
 
 const scene = new THREE.Scene();    //scene
 
@@ -41,9 +41,9 @@ const mat = new THREE.MeshStandardMaterial({
     
 });
 const mesh = new THREE.Mesh(geo, mat);
-scene.add(mesh);
+// scene.add(mesh);
 
-
+//----------------------//
 
 
 const wiregeo = new THREE.IcosahedronGeometry(1,3);
@@ -56,13 +56,31 @@ wireMesh.scale.setScalar(1.001);
 mesh.add(wireMesh)
 
 
+//*--------------added earth
+
+const loader = new THREE.TextureLoader();
+const earthMesh = new THREE.IcosahedronGeometry(1, 12);
+const earthMat = new THREE.MeshStandardMaterial({
+    map: loader.load("./maps/1_earth_16k.jpg") 
+    // map: loader.load("./maps/earthmap10k.jpg") 
+    // map: loader.load("./maps/8k_earth_nightmap.jpg")
+    
+})
+const earth = new THREE.Mesh(earthMesh, earthMat);
+    
+    
+    scene.add(earth);
 
 
 
 //*-----------Created Light
 
 const hemiLight = new THREE.HemisphereLight('yellow', 'red')
-scene.add(hemiLight);
+// scene.add(hemiLight);
+
+//------Light for earth
+const earthlight = new THREE.HemisphereLight('white', 'white')
+scene.add(earthlight)
 
 
 
@@ -73,6 +91,7 @@ function animate(t = 0) {
     requestAnimationFrame(animate);
     mesh.rotation.y = t / 4000;
     // wireMesh.rotation.y = -t / 2000;
+    earth.rotation.y = t / 4000;
 
     renderer.render( scene, camera );
     controls.update();
