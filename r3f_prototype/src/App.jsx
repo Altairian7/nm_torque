@@ -3,7 +3,7 @@ import "./App.css";
 import { Canvas, events, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { CylinderGeometry, RingGeometry, WireframeGeometry } from "three";
-
+import { OrbitControls } from "@react-three/drei"
 
 
 const Cube = ({ position, size, color }) => {
@@ -93,8 +93,11 @@ const App = () => {
       </group> */}
 
       {/* <Cube position={[0, 0, 0]} args={[1,12]} color={"gold"} /> */}
-      <Sphere position={[0,0,0]} args={[1, 30, 30]} color={"blue"} />
+      {/* <Sphere position={[0,0,0]} args={[1, 30, 30]} color={"blue"} /> */}
+      <TorusKnot position={[0,0,0]} color={"blue"} />
       {/* <Shape position={[0,0,0]} color={"blue"} /> */}
+
+      <OrbitControls enableDamping={true}/>
 
 
      
