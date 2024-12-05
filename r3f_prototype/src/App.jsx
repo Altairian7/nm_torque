@@ -1,12 +1,13 @@
+import { useState } from "react";
 import "./App.css";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, events, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
-import { WireframeGeometry } from "three";
+import { CylinderGeometry, RingGeometry, WireframeGeometry } from "three";
+
 
 
 const Cube = ({ position, size, color }) => {
   const ref = useRef();
-
   useFrame((state, delta) => {
 
     ref.current.rotation.x += delta
@@ -29,10 +30,28 @@ const Cube = ({ position, size, color }) => {
 
 
 const Sphere = ({ position, size, color }) => {
+  const ref = useRef();
+
+  const [isHovered, setIsHovered] = useState(false);
+
+  useFrame((state, delta) => {
+
+    ref.current.rotation.x += delta
+    ref.current.rotation.y += delta
+    ref.current.rotation.z += delta * 2
+    // ref.current.position.z = Math.sin(state.clock.elapsedTime) * 4
+    // console.log(state.clock.elapsedTime)
+
+  });
+
   return (
-    <mesh position={position}>
+    <mesh position={position} 
+    ref={ref} 
+    onPointerEnter={(event) => (event.stopPropagation(), setIsHovered(true))}
+    onPointerLeave={() => setIsHovered(false)}
+    >
       <sphereGeometry args={size} />
-      <meshStandardMaterial color={color} wireframe />
+      <meshStandardMaterial color={isHovered ? "yellow" : "red"} wireframe />
     </mesh>
   )
 }
@@ -42,6 +61,15 @@ const TorusKnot = ({ position, size, color }) => {
     <mesh position={position}>
       <torusKnotGeometry args={size} />
       <meshStandardMaterial color={color} wireframe />
+    </mesh>
+  )
+}
+
+const Shape = ({ position, size, color }) => {
+  return (
+    <mesh position={position}>
+      <capsuleGeometry args={size} />
+      <meshStandardMaterial color={color}  wireframe/>
     </mesh>
   )
 }
@@ -62,7 +90,8 @@ const App = () => {
 
       {/* <Cube position={[0, 0, 0]} args={[1,12]} color={"gold"} /> */}
       <Sphere position={[0,0,0]} args={[1, 30, 30]} color={"blue"} />
-      {/* <TorusKnot position={[0,0,0]} args={[0.5, 0.1, 1000, 50]} color={"blue"} /> */}
+      {/* <Shape position={[0,0,0]} color={"blue"} /> */}
+
 
      
 
